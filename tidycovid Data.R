@@ -16,6 +16,7 @@ library(tidyverse)
 library(tidycovid19)
 library(pdftools)
 library(png)
+library(scales)
 
 #### Load PDF------------------------------------------------------------------
 
@@ -77,4 +78,10 @@ ggplot(dta, aes(x = date, y = value, group = measure, color = measure)) +
         annotate("rect", xmin = min(dta$date[dta$lockdown]), xmax = max(dta$date), 
                  ymin = -Inf, ymax = Inf, 
                  fill = "lightblue", color = NA, alpha = 0.2) +
-        geom_line()   
+        geom_line() +
+        scale_y_continuous(labels = scales::percent) +
+        labs(title = "Combined Googel COVID-19 Mobility Report",
+             subtitle = "Includes measure of strength of Government intervention and the ligtblue area indicates lockdown",
+             x = "Per cent cahnge to baseline (%)",
+             y = "Date") +
+        theme(legend.title = element_blank())
