@@ -34,10 +34,12 @@ bitmaps <- tidycovid19:::extract_line_graph_bitmaps(pdf_url, 1)
 png_file <- tempfile("bitmap_", fileext = ".png")
 writePNG(bitmaps[[1]][[1]], "bitmap.png")
 
-#### Get data 
+#### Get bitmap Data------------------------------------------------------------
 
+# get bitmap data for retail
 df <- tidycovid19:::parse_line_graph_bitmap(bitmaps[[1]][[1]])
 
+# plot retail data
 ggplot(data = df, aes(x = date, y = measure)) + 
         geom_line(size = 2, color = "blue") + 
         geom_ribbon(
@@ -59,6 +61,7 @@ ggplot(data = df, aes(x = date, y = measure)) +
 # get merged 
 merged_dta <- download_merged_data(cached = TRUE, silent = TRUE)
 
+# filter data for Australia
 dta <- merged_dta %>% 
         filter(iso3c == "AUS", date >= "2020-02-23") %>%
         mutate(gov_interventions = (soc_dist + mov_rest)/
@@ -68,6 +71,7 @@ dta <- merged_dta %>%
         pivot_longer(cols = c(3:9), names_to = "measure", values_to = "value") %>%
         na.omit()
 
+# plot data
 ggplot(dta, aes(x = date, y = value, group = measure, color = measure)) + 
         theme_minimal() +
         annotate("rect", xmin = min(dta$date[dta$lockdown]), xmax = max(dta$date), 
