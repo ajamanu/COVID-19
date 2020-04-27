@@ -136,7 +136,7 @@ cov_curve %>%
              subtitle = paste("Data as of", format(max(cov_curve$dateRep), "%A, %B %e, %Y")), 
              caption = "Data: ECDC") +
         theme_minimal() +
-        coord_cartesian(xlim = c(0, 50))
+        coord_cartesian(xlim = c(0, 70))
 
 # Plot curves adapted from
 # https://kieranhealy.org/blog/archives/2020/03/21/covid-19-tracking/
@@ -164,7 +164,7 @@ cov_curve1 %>%
              subtitle = paste("Data as of", format(max(cov_curve1$dateRep), "%A, %B %e, %Y")), 
              caption = "Data: ECDC") +
         theme_minimal() +
-        coord_cartesian(xlim = c(0, 45))
+        coord_cartesian(xlim = c(0, 65))
 
 ### Average basis
 
