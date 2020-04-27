@@ -10,7 +10,7 @@ library(lubridate) # for working with dates
 
 #### Load Data------------------------------------------------------------------
 
-data <- read_csv("./Data/applemobilitytrends-2020-04-22.csv")
+data <- read_csv("./Data/applemobilitytrends-2020-04-25.csv")
 
 #### Clean Data-----------------------------------------------------------------
 
