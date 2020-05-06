@@ -10,19 +10,19 @@ library(lubridate) # for working with dates
 
 #### Load Data------------------------------------------------------------------
 
-data <- read_csv("./Data/applemobilitytrends-2020-04-25.csv")
+data <- read_csv("./Data/applemobilitytrends-2020-05-04.csv")
 
 #### Clean Data-----------------------------------------------------------------
 
 # pivot data frame
 data1 <- data %>% 
-        select(-geo_type) %>% 
+        select(-c(geo_type, alternative_name)) %>% 
         pivot_longer(-c(region, transportation_type), names_to = "date", 
                      values_to = "index")
 
 # fix data
 data1 <- data1 %>% 
-        mutate(date = dmy(date))
+        mutate(date = ymd(date))
 
 #### Plot Chart-----------------------------------------------------------------
 
