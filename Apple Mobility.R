@@ -10,13 +10,13 @@ library(lubridate) # for working with dates
 
 #### Load Data------------------------------------------------------------------
 
-data <- read_csv("./Data/applemobilitytrends-2020-05-04.csv")
+data <- read_csv("./Data/applemobilitytrends-2020-05-20.csv")
 
 #### Clean Data-----------------------------------------------------------------
 
 # pivot data frame
 data1 <- data %>% 
-        select(-c(geo_type, alternative_name)) %>% 
+        select(-c(geo_type, alternative_name:country)) %>% 
         pivot_longer(-c(region, transportation_type), names_to = "date", 
                      values_to = "index")
 
