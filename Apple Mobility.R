@@ -10,7 +10,49 @@ library(lubridate) # for working with dates
 
 #### Load Data------------------------------------------------------------------
 
-data <- read_csv("./Data/applemobilitytrends-2020-05-20.csv")
+### Old
+
+# previously manually downloaded from apple website then read in data
+# data <- read_csv("./Data/applemobilitytrends-2020-05-20.csv")
+
+### New
+
+# get mobility data based on code adapted from below 
+# https://kieranhealy.org/blog/archives/2020/05/23/get-apples-mobility-data/
+
+get_apple_target <- function(cdn_url = "https://covid19-static.cdn-apple.com",
+                             json_file = "covid19-mobility-data/current/v3/index.json") {
+        tf <- tempfile(fileext = ".json")
+        curl::curl_download(paste0(cdn_url, "/", json_file), tf)
+        json_data <- jsonlite::fromJSON(tf)
+        paste0(cdn_url, json_data$basePath, json_data$regions$`en-us`$csvPath)
+}
+
+get_apple_data <- function(url = get_apple_target(),
+                           fname = "applemobilitytrends-",
+                           date = stringr::str_extract(get_apple_target(), "\\d{4}-\\d{2}-\\d{2}"),
+                           ext = "csv",
+                           dest = "/Data",
+                           save_file = c("n", "y")) {
+        
+        save_file <- match.arg(save_file)
+        message("target: ", url)
+        
+        destination <- fs::path(here::here("/Data"),
+                                paste0("applemobilitytrends-", date), ext = ext)
+        
+        tf <- tempfile(fileext = ext)
+        curl::curl_download(url, tf)
+        
+        ## We don't save the file by default
+        switch(save_file,
+               y = fs::file_copy(tf, destination),
+               n = NULL)
+        
+        readr::read_csv(tf)
+}
+
+data <- get_apple_data(save_file = "y")
 
 #### Clean Data-----------------------------------------------------------------
 
