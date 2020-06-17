@@ -68,6 +68,8 @@ data1 <- data1 %>%
 
 #### Plot Chart-----------------------------------------------------------------
 
+### City Data
+
 # plot data Australia
 data1 %>% 
         filter(region %in% c("Sydney", "Melbourne", "Brisbane", "Perth")) %>% 
@@ -101,3 +103,18 @@ data1 %>%
         theme_minimal() +
         theme(legend.title = element_blank())
 
+### Country
+data1 %>% 
+        filter(region %in% c("Australia", "United Kingdom", "Germany", "Japan", "New Zealand",
+                             "United States")) %>% 
+        ggplot(aes(date, index, colour = region)) +
+        geom_smooth(se = FALSE) +
+        geom_hline(yintercept = 100, colour = "red", linetype = "dashed") +
+        facet_wrap(~transportation_type) +
+        labs(title = paste("Mobility Data for Selected Global Cities as at", 
+                           format(max(data1$date), "%d %B")),
+             x = NULL,
+             y = "Index (100 = Baseline)",
+             caption = "Source: https://www.apple.com/covid19/mobility") +
+        theme_minimal() +
+        theme(legend.title = element_blank())
