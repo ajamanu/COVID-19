@@ -77,10 +77,11 @@ data1 %>%
         geom_smooth(se = FALSE) +
         geom_hline(yintercept = 100, colour = "red", linetype = "dashed") +
         geom_vline(xintercept = as.Date("2020-03-21"), colour = "red", linetype = "dashed") +
+        geom_vline(xintercept = as.Date("2020-07-09"), colour = "red", linetype = "dashed") +
         facet_wrap(~transportation_type) +
         labs(title = paste("Mobility Data for Selected Australian Cities as at", 
                            format(max(data1$date), "%d %B")),
-             subtitle = "Nation-wide social distancing recommendations commenced 21st March",
+             subtitle = "Nation-wide social distancing recommendations commenced 21st March, \nVictoria additional social distancing commenced 9th July",
              x = NULL,
              y = "Index (100 = Baseline)",
              caption = "Source: https://www.apple.com/covid19/mobility") +
