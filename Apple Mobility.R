@@ -72,7 +72,7 @@ data1 <- data1 %>%
 
 # plot data Australia
 data1 %>% 
-        filter(region %in% c("Sydney", "Melbourne", "Brisbane", "Perth")) %>% 
+        filter(region %in% c("Australia", "Sydney", "Melbourne", "Brisbane", "Perth")) %>% 
         ggplot(aes(date, index, colour = region)) +
         geom_smooth(se = FALSE) +
         geom_hline(yintercept = 100, colour = "red", linetype = "dashed") +
@@ -86,7 +86,8 @@ data1 %>%
              y = "Index (100 = Baseline)",
              caption = "Source: https://www.apple.com/covid19/mobility") +
         theme_minimal() +
-        theme(legend.title = element_blank())
+        theme(legend.title = element_blank(),
+              legend.position = "bottom")
 
 # plot data global
 data1 %>% 
