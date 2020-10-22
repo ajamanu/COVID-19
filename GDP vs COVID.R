@@ -4,6 +4,9 @@
 
 #### Load Library---------------------------------------------------------------
 
+# load fonts
+loadfonts(device="win")
+
 library(tidyverse) # for working with tidy data
 library(tidycovid19) # for getting COVID Data
 library(OECD) # for getting OECD data
@@ -11,6 +14,8 @@ library(countrycode) # for getting country codes
 library(janitor) # for leaning names
 library(ggrepel) # for charting
 library(gghighlight) # for charting
+library(writexl) # for writing out excel files
+library(extrafont) # for plotting
 
 #### Load Data------------------------------------------------------------------
 
@@ -39,10 +44,8 @@ cc <- countrycode::codelist
 countries_of_interest <- tibble(country = c("China", "Japan", "South Korea" ,"United States", "India",
                                        "New Zealand", "Singapore", "United Kingdom",
                                        "Australia", "Vietnam", "Germany", "Ireland",
-                                       "Netherlands", "Sweden", "Chile", "Brazil",
-                                       "Belgium", "Colombia", "France", "Mexico",
-                                       "Italy", "Argentina", "Spain", "Canada",
-                                       "Greece"))
+                                        "Sweden", "Brazil", "Belgium", "France", 
+                                       "Italy", "Argentina", "Spain", "Canada"))
 
 # join with data
 countries_of_interest <- countries_of_interest %>% 
@@ -87,22 +90,26 @@ chart_data <- df_filtered %>%
 
 #### Plot Data------------------------------------------------------------------
 
-# colours
-# #2f6165
+# CPEC colours
+# #2f6165, #dcf3f2
+# #d9d9d9 For axis
 
+# plot chart
 chart_data %>% 
         ggplot(aes(deathsPerMil, h1)) +
-        geom_point(size = 3, colour = "#2f6165") +
-        geom_text_repel(aes(label = country), point.padding = 0.1) +
+        geom_point(size = 5, colour = "#dcf3f2") +
+        geom_text_repel(aes(label = country), point.padding = 0.22) +
         geom_smooth(se = FALSE, method = "lm", linetype = "dashed", colour = "lightgrey") +
         geom_point(data=chart_data %>% 
                            filter(country %in% c("Australia", "New Zealand")), 
-                   aes(deathsPerMil, h1), color = "#00aaa1", size=3) +
+                   aes(deathsPerMil, h1), color = "#00aaa1", size=5) +
         labs(x = "Cumulative deaths per million, as at 19 October",
-             y = "Fall in GDP H1 2020 (%)",
-             caption = "Source: ECDC, OECD, World Bank") +
+             y = "Fall in GDP H1 2020 (%)") +
+            # caption = "Source: ECDC, OECD, World Bank") +
         theme_minimal() +
-        theme(panel.grid = element_blank())
+        theme(panel.grid = element_blank(),
+              axis.line = element_line(colour = "#d9d9d9"),
+              text = element_text(family = "Segoe UI"))
 
 chart_data %>% 
         ggplot(aes(casesPerMil, h1)) +
@@ -110,3 +117,7 @@ chart_data %>%
         geom_text_repel(aes(label = country)) +
         #geom_smooth(se = FALSE, method = "lm", linetype = "dashed") +
         gghighlight(country %in% c("Australia", "New Zealand"))
+
+#### Export Data----------------------------------------------------------------
+
+write_xlsx(chart_data, "Output/GDP vs COVID-19.xlsx")
