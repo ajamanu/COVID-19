@@ -57,7 +57,7 @@ countries_of_interest <- countries_of_interest %>%
 # get COVID data for countries we need
 df_filtered <- df %>% 
         filter(iso3c %in% countries_of_interest$genc3c,
-               date == max(date)) %>% 
+               date == "2020-10-19") %>% 
         select(iso3c, country, date, ecdc_cases, ecdc_deaths, population)
 
 # get gdp data for countries
@@ -121,3 +121,7 @@ chart_data %>%
 #### Export Data----------------------------------------------------------------
 
 write_xlsx(chart_data, "Output/GDP vs COVID-19.xlsx")
+
+write_xlsx(gdp_data_filtered, "OECD GDP Data.xlsx")
+
+write_xlsx(df_filtered, "COVID Data.xlsx")
