@@ -78,6 +78,7 @@ data1 %>%
         geom_hline(yintercept = 100, colour = "red", linetype = "dashed") +
         geom_vline(xintercept = as.Date("2020-03-21"), colour = "red", linetype = "dashed") +
         geom_vline(xintercept = as.Date("2020-07-09"), colour = "red", linetype = "dashed") +
+        scale_x_date(date_labels = "%b-%Y") +
         facet_wrap(~transportation_type) +
         labs(title = paste("Mobility Data for Selected Australian Cities as at", 
                            format(max(data1$date), "%d %B")),
@@ -87,7 +88,10 @@ data1 %>%
              caption = "Source: https://www.apple.com/covid19/mobility") +
         theme_minimal() +
         theme(legend.title = element_blank(),
-              legend.position = "bottom")
+              legend.position = "bottom",
+              panel.grid.major.x = element_blank(),
+              panel.grid.minor.x = element_blank(),
+              axis.text.x = element_text(angle = 45))
 
 # plot data global
 data1 %>% 
