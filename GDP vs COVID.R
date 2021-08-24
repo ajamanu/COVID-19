@@ -4,6 +4,10 @@
 
 #### Load Library---------------------------------------------------------------
 
+# https://github.com/wch/extrafont/issues/88
+# remotes::install_version("Rttf2pt1", version = "1.3.8")
+# font_import()
+
 # load fonts
 loadfonts(device="win")
 
@@ -57,7 +61,7 @@ countries_of_interest <- countries_of_interest %>%
 # get COVID data for countries we need
 df_filtered <- df %>% 
         filter(iso3c %in% countries_of_interest$genc3c,
-               date == "2021-03-31") %>% # update the date to what you want
+               date == "2021-06-30") %>% # update the date to what you want
         select(iso3c, country, date, ecdc_cases, ecdc_deaths, population)
 
 # get gdp data for countries
@@ -107,13 +111,13 @@ chart_data %>%
         filter(!(country %in% c("Ireland", "Brazil", "India"))) %>% 
         ggplot(aes(deathsPerMil, totalGrowth)) +
         geom_point(size = 5, colour = "#dcf3f2") +
-        geom_text_repel(aes(label = country), point.padding = 0.22) +
+        geom_text_repel(aes(label = country), point.padding = 0.5, nudge_x = 1.5, nudge_y = 0.5) +
         geom_smooth(se = FALSE, method = "lm", linetype = "dashed", colour = "lightgrey") +
         geom_point(data=chart_data %>% 
                            filter(country %in% c("Australia", "New Zealand")), 
                    aes(deathsPerMil, totalGrowth), color = "#00aaa1", size=5) +
         geom_hline(yintercept = 0, colour = "grey", linetype = "dashed") +
-        labs(x = "Cumulative deaths per million, as at 31 March 2021",
+        labs(x = "Cumulative deaths per million, as at 30 June 2021",
              y = "Growth in GDP From Start of 2020 to Q1 2021 (%)") +
             # caption = "Source: ECDC, OECD, World Bank") +
         theme_minimal() +
