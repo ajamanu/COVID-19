@@ -92,7 +92,8 @@ data1 %>%
               legend.position = "bottom",
               panel.grid.major.x = element_blank(),
               panel.grid.minor.x = element_blank(),
-              axis.text.x = element_text(angle = 45))
+              axis.text.x = element_text(angle = 45),
+              plot.title.position = "plot")
 
 # plot data global
 data1 %>% 
@@ -110,7 +111,8 @@ data1 %>%
              caption = "Source: https://www.apple.com/covid19/mobility") +
         theme_minimal() +
         theme(legend.title = element_blank(),
-              axis.text.x = element_text(angle = 45))
+              axis.text.x = element_text(angle = 45),
+              plot.title.position = "plot")
 
 ### Country
 data1 %>% 
@@ -128,4 +130,5 @@ data1 %>%
              caption = "Source: https://www.apple.com/covid19/mobility") +
         theme_minimal() +
         theme(legend.title = element_blank(),
-              axis.text.x = element_text(angle = 45))
+              axis.text.x = element_text(angle = 45),
+              plot.title.position = "plot")
